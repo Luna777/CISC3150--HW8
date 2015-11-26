@@ -33,7 +33,7 @@ class Server extends Thread{
 				}
 			}
 			catch(Throwable ex){
-				System.out.println("error S");
+				System.out.println("error in S");
 		}
 
 	}
