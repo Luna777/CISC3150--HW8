@@ -8,7 +8,7 @@
 // 
 // there are random time intervals between the sending and catching 
 // (I didn't make the random time too randomly, I narrow down the
-// range of it as "sleep(rd.nextInt(10)*100)". 
+// range of it as "sleep(rd.nextInt(5)*100)". 
 // That will be easy for look up.)
 //
 // PipedWriter and PipedReader are good for characters, but
@@ -41,13 +41,15 @@ class ClientA extends Thread{
 		try{
 			Random rd = new Random();
 			while(true){ 
-				sleep(rd.nextInt(10)*100);
+				//send message out
+				sleep(rd.nextInt(5)*100);
 				date = new Date();
 				String s = Main.msgs[rd.nextInt(9)];
 				out.writeUTF(s);
 				System.out.println("At "+date.toString()+", A said: "+s);
 				
-				sleep(rd.nextInt(10)*100);
+				//read message in
+				sleep(rd.nextInt(5)*100);
 				date = new Date();
 				String x = in.readUTF();
 				System.out.println("At "+date.toString()+", A received: "+x);
