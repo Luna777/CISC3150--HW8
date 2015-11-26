@@ -8,173 +8,106 @@ import java.io.PipedOutputStream;
 public class Main{
 	public static void main(String[] args) throws IOException{
 		
-//		PipedOutputStream outputAS= new PipedOutputStream();
-//		PipedInputStream inputAS = new PipedInputStream(outputAS);
+
+//		PipedWriter outputAS = new PipedWriter();
+//		PipedReader inputAS = new PipedReader(outputAS);
 //		
-//		PipedOutputStream outputBS= new PipedOutputStream();
-//		PipedInputStream inputBS = new PipedInputStream(outputBS);
-		PipedWriter outputAS = new PipedWriter();
-		PipedReader inputAS = new PipedReader(outputAS);
+//		PipedWriter outputBS = new PipedWriter();
+//		PipedReader inputBS = new PipedReader(outputBS);
+//		
+//		PipedWriter outputSA = new PipedWriter();
+//		PipedReader inputSA = new PipedReader(outputSA);
+//		
+//		PipedWriter outputSB = new PipedWriter();
+//		PipedReader inputSB = new PipedReader(outputSB);
 		
-		PipedWriter outputBS = new PipedWriter();
-		PipedReader inputBS = new PipedReader(outputBS);
+		PipedOutputStream outputAS= new PipedOutputStream();
+		PipedInputStream inputAS = new PipedInputStream(outputAS);
 		
-		PipedWriter outputSA = new PipedWriter();
-		PipedReader inputSA = new PipedReader(outputSA);
+		PipedOutputStream outputBS= new PipedOutputStream();
+		PipedInputStream inputBS = new PipedInputStream(outputBS);
 		
-		PipedWriter outputSB = new PipedWriter();
-		PipedReader inputSB = new PipedReader(outputSB);
+		PipedOutputStream outputSA= new PipedOutputStream();
+		PipedInputStream inputSA = new PipedInputStream(outputSA);
+		
+		PipedOutputStream outputSB= new PipedOutputStream();
+		PipedInputStream inputSB = new PipedInputStream(outputSB);
+		
+		
 		
 		ClientA ca = new ClientA(outputAS, inputSA);
 		ClientB cb = new ClientB(outputBS, inputSB);
-		Server2 server = new Server2(outputSA, outputSB, inputAS, inputBS);
-//		Server serverAB = new Server(outputSB,inputAS);
-//		Server serverBA = new Server(outputSA,inputBS);
-		
-		//System.out.println("11111");
+		Server server = new Server(outputSA, outputSB, inputAS, inputBS);
+
 		
 		
 		ca.start();
 		cb.start();
 		server.start();
-//		serverAB.start();
-//		serverBA.start();
-		//System.out.println("22222");
 	}
 }
-
-class Server2 extends Thread{
-	private PipedWriter outSA;
-	private PipedReader inAS;
-	private PipedWriter outSB;
-	private PipedReader inBS;
-	
-	public Server2(PipedWriter oSA, PipedWriter oSB, PipedReader iAS, PipedReader iBS){
-		
-		outSA=oSA;
-		outSB=oSB;
-		inAS=iAS;
-		inBS=iBS;
-	}
-	public void run(){
-		try{
-					
-					while(true){ 
-						
-						int x = inAS.read();
-						//sleep(1000);
-						outSB.write(x);	
-						
-						int y = inBS.read();
-						outSA.write(y);
-						
-					}
-				}
-				catch(Throwable ex){
-					System.out.println("error S");
-				}
-
-	}
-	
-	
-	
-}
-
 
 class Server extends Thread{
-//	private DataInputStream in;
-//	private DataOutputStream out;
+//	private PipedWriter outSA;
+//	private PipedReader inAS;
+//	private PipedWriter outSB;
+//	private PipedReader inBS;
 	
-//	private InputStream in;
-//	private OutputStream out;
+	private DataOutputStream outSA;
+	private DataInputStream inAS;
+	private DataOutputStream outSB;
+	private DataInputStream inBS;	
 	
-	private PipedWriter out;
-	private PipedReader in;
-	
-	public Server(PipedWriter o,PipedReader i){
-		in=i;
-		out=o;
+	public Server(OutputStream oSA, OutputStream oSB, 
+			InputStream iAS, InputStream iBS){
+		
+		outSA= new DataOutputStream(oSA);
+		outSB=new DataOutputStream(oSB);
+		inAS=new DataInputStream(iAS);
+		inBS=new DataInputStream(iBS);
 	}
-	
-//	public Server(InputStream is, OutputStream os)
-//	{ 
-////		in = new DataInputStream(is);
-////		out= new DataOutputStream(os);
-//		in=is;
-//		out=os;
-//	}
-	
 	public void run(){
 		try{
-			
-			while(true){ // or just use for loop
-//				String x = in.readUTF();
-//				System.out.println(x);
-//				out.writeUTF(x);
-				
-				int x = in.read();
-				//System.out.println("Server: read in " +x + " and send out " + x);
-				sleep(1000);
-				out.write(x);
-				
-				//out.flush();
-				//yield();
-				
-				
+				while(true){ 
+					String x = inAS.readUTF();
+					outSB.writeUTF(x);	
+					
+					String y = inBS.readUTF();
+					outSA.writeUTF(y);		
+				}
 			}
-		}
-		catch(Throwable ex){
-			System.out.println("error S");
+			catch(Throwable ex){
+				System.out.println("error S");
 		}
 
 	}
-	
-	
-	
-	
+
 }
 
+
+
 class ClientA extends Thread{
-//	private DataInputStream in;
-//	private DataOutputStream out;
+	private DataInputStream in;
+	private DataOutputStream out;
+
+//	private PipedWriter out;
+//	private PipedReader in;
 	
-//	private InputStream in;
-//	private OutputStream out;
-//	
-//	public ClientA(InputStream is, OutputStream os)
-//	{ 
-////		in = new DataInputStream(is);
-////		out= new DataOutputStream(os);
-//		in=is;
-//		out=os;
-//	}
-	
-	private PipedWriter out;
-	private PipedReader in;
-	
-	public ClientA(PipedWriter o,PipedReader i){
-		in=i;
-		out=o;
+	public ClientA(OutputStream o,InputStream i){
+		in= new DataInputStream(i);
+		out=new DataOutputStream(o);
 	}
 	public void run(){
 		try{
 			
-			while(true){ // or just use for loop
-//				String x = in.readUTF();
-//				System.out.println("B says: "+x);
-//				out.writeUTF("A speaks aaa");
-				out.write(1);
-				System.out.println("A sent out 1");
+			while(true){ 
+				sleep(700);
+				out.writeUTF("message from A");
+				System.out.println("A sent out: message from A");
 				sleep(1000);
-				int x = in.read();
+				String x = in.readUTF();
 				System.out.println("A read in: "+x);
-				
-				
-				
-				//out.flush();
-				//yield();
-				
-				//i++;
+
 			}
 		}
 		catch(Throwable ex){
@@ -186,51 +119,29 @@ class ClientA extends Thread{
 }
 
 class ClientB extends Thread{
-//	private DataInputStream in;
-//	private DataOutputStream out;
+	private DataInputStream in;
+	private DataOutputStream out;
 	
+//	private PipedWriter out;
+//	private PipedReader in;
 	
-//	private InputStream in;
-//	private OutputStream out;
-//	
-//	public ClientB(InputStream is, OutputStream os)
-//	{ 
-////		in = new DataInputStream(is);
-////		out= new DataOutputStream(os);
-//		
-//		in = is;
-//		out = os;
-//	}
-	
-	private PipedWriter out;
-	private PipedReader in;
-	
-	public ClientB(PipedWriter o,PipedReader i){
-		in=i;
-		out=o;
+	public ClientB(OutputStream o,InputStream i){
+		in= new DataInputStream(i);
+		out=new DataOutputStream(o);
 	}
 	public void run(){
 		try{
-			//int i=0;
-			while(true){ // or just use for loop
-//				String x = in.readUTF();
-//				System.out.println("A says: " +x);
-//				out.writeUTF("B speaks bbb");
-				
-				int x = in.read();
+			while(true){ 
+
+				sleep(1000);
+				String x = in.readUTF();
 				System.out.println("B read in: "+x);
 				
 				sleep(1000);
 				
-				out.write(2);
-				System.out.println("B sent out 2");
-				
-				
-				
-				//out.flush();
-				//yield();
-				
-				//i++;
+				out.writeUTF("message from B");
+				System.out.println("B sent out: message from B");
+
 			}
 		}
 		catch(Throwable ex){
