@@ -1,0 +1,19 @@
+At Wed Nov 25 20:39:33 EST 2015, A said: Good Job.
+At Wed Nov 25 20:39:33 EST 2015, B received: Good Job.
+At Wed Nov 25 20:39:35 EST 2015, B said: How's it going?
+At Wed Nov 25 20:39:33 EST 2015, A received: How's it going?
+At Wed Nov 25 20:39:37 EST 2015, A said: Hello, who are you?
+At Wed Nov 25 20:39:35 EST 2015, B received: Hello, who are you?
+At Wed Nov 25 20:39:38 EST 2015, B said: How's it going?
+At Wed Nov 25 20:39:37 EST 2015, A received: How's it going?
+At Wed Nov 25 20:39:40 EST 2015, A said: Don't repeat me!
+At Wed Nov 25 20:39:38 EST 2015, B received: Don't repeat me!
+At Wed Nov 25 20:39:41 EST 2015, B said: I said don't repeat me!
+At Wed Nov 25 20:39:40 EST 2015, A received: I said don't repeat me!
+At Wed Nov 25 20:39:42 EST 2015, A said: Hello Kitty~
+At Wed Nov 25 20:39:41 EST 2015, B received: Hello Kitty~
+At Wed Nov 25 20:39:44 EST 2015, B said: I said don't repeat me!
+At Wed Nov 25 20:39:42 EST 2015, A received: I said don't repeat me!
+At Wed Nov 25 20:39:45 EST 2015, A said: Hello, who are you?
+At Wed Nov 25 20:39:44 EST 2015, B received: Hello, who are you?
+At Wed Nov 25 20:39:46 EST 2015, B said: Blah!
